@@ -1,22 +1,27 @@
 import React from "react";
-import { Form, NavLink } from "react-router-dom";
+import { Form, NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpValidationSchema } from "../api/auth/sign-up";
 import { RenderError } from "../components/RenderError";
 import { useAuth } from "../hooks";
 import { OverlayLoader } from "../components/OverlayLoader";
+import { toast } from "react-toastify";
 
 const PasswordSignUp = () => {
   const { register, isLoading } = useAuth();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      name: "",
     },
     validationSchema: SignUpValidationSchema,
     onSubmit: async (values, { resetForm }) => {
-      register(values.email, values.password);
+      register(values.email, values.password, values.name);
+      toast.success("Account created successfully!");
+      navigate("/Sign-In");
       resetForm();
     },
   });
@@ -34,6 +39,29 @@ const PasswordSignUp = () => {
 
             <Form onSubmit={formik.handleSubmit} className="space-y-8">
               <div className="space-y-6">
+                <div>
+                  <label
+                    className="mb-2 block text-sm font-semibold text-[#3E3B6D]"
+                    htmlFor="name"
+                  >
+                    Nom et prénom
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="name"
+                      type="text"
+                      className="block w-full rounded-xl border border-[#D3B4A9] bg-[#F7F7F7] p-4 text-sm text-[#3E3B6D] placeholder-opacity-70 focus:border-[#D4A5A5] focus:ring-[#D4A5A5] shadow-lg transition-transform transform hover:scale-105"
+                      placeholder="Adresse name"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.name}
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                      <RenderError message={formik.errors.name} />
+                    )}
+                  </div>
+                </div>
+
                 <div>
                   <label
                     className="mb-2 block text-sm font-semibold text-[#3E3B6D]"

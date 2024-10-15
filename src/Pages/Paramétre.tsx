@@ -1,32 +1,100 @@
-import { useEffect, useState } from "react";
-import { database, ref, set, get, remove } from "./Firebase";
+import React, { useEffect, useState } from "react";
+import {
+  updateEmail,
+  updatePassword,
+  updateProfile,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  getAuth,
+} from "firebase/auth";
+import { database, ref, set, get } from "./Firebase"; // Assuming you have Firebase Database configured
+import { toast } from "react-toastify";
 
 const Settings = () => {
-  const [emails, setEmails] = useState([]);
-  const [notificationEmails, setNotificationEmails] = useState([]);
-  const [emailInput, setEmailInput] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [notifications, setNotifications] = useState(true);
+  const [phone, setPhone] = useState(""); // Re-added phone state
+  const [notifications, setNotifications] = useState(true); // Re-added notifications state
+  const [emails, setEmails] = useState([]); // Emergency emails
+  const [emailInput, setEmailInput] = useState(""); // Input field for emails
 
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  // Load the user's current info into state
   useEffect(() => {
-    const fetchEmails = async () => {
-      const emailsRef = ref(database, "emergencyEmails");
-      const snapshot = await get(emailsRef);
-      if (snapshot.exists()) {
-        setEmails(snapshot.val() || []);
-      }
-    };
+    if (user) {
+      setUsername(user.displayName || "");
+      setEmail(user.email || "");
+      // Load any additional attributes like phone number from Firestore or Realtime Database if stored there
+      loadUserDetails(); // Custom function to load other user details like phone number
 
-    fetchEmails();
-  }, []);
+      fetchEmails(); // Fetch emergency emails from Firebase
+    }
+  }, [user]);
 
-  const saveEmailsToFirebase = async (emailsToSave) => {
-    const emailsRef = ref(database, "emergencyEmails");
-    await set(emailsRef, emailsToSave);
+  const loadUserDetails = async () => {
+    const userRef = ref(database, `users/${user.uid}`);
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      setPhone(userData.phone || ""); // Load phone number from Firebase
+      setNotifications(userData.notifications || true); // Load notifications preference
+    }
   };
 
+  const fetchEmails = async () => {
+    const emailsRef = ref(database, "emergencyEmails");
+    const snapshot = await get(emailsRef);
+    if (snapshot.exists()) {
+      setEmails(snapshot.val() || []);
+    }
+  };
+
+  const saveUserDetails = async () => {
+    const userRef = ref(database, `users/${user.uid}`);
+    await set(userRef, {
+      phone, // Save phone number
+      notifications, // Save notification preference
+    });
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      if (user) {
+        // Update display name (username)
+        if (username !== user.displayName) {
+          await updateProfile(user, { displayName: username });
+        }
+
+        // Update email
+        if (email !== user.email) {
+          await updateEmail(user, email);
+        }
+
+        // Update password (only if it has been changed)
+        if (password) {
+          await updatePassword(user, password);
+        }
+
+        // Save other user details like phone and notifications to Firebase Database
+        await saveUserDetails();
+
+        toast.success("Profile updated successfully!");
+      }
+    } catch (error) {
+      if (error.code === "auth/requires-recent-login") {
+        toast.error(
+          "Please re-authenticate before updating sensitive information."
+        );
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
+
+  // Handling emergency emails
   const handleAddEmail = () => {
     if (emailInput && !emails.includes(emailInput)) {
       const updatedEmails = [...emails, emailInput];
@@ -42,26 +110,9 @@ const Settings = () => {
     saveEmailsToFirebase(updatedEmails);
   };
 
-  const handleEmailChange = (index, newEmail) => {
-    const updatedEmails = [...notificationEmails];
-    updatedEmails[index] = newEmail;
-    setNotificationEmails(updatedEmails);
-    saveEmailsToFirebase(updatedEmails);
-  };
-
-  const removeEmail = (index) => {
-    const updatedEmails = notificationEmails.filter((_, i) => i !== index);
-    setNotificationEmails(updatedEmails);
-    saveEmailsToFirebase(updatedEmails);
-  };
-
-  const handleAddNotificationEmail = () => {
-    if (emailInput && !notificationEmails.includes(emailInput)) {
-      const updatedNotificationEmails = [...notificationEmails, emailInput];
-      setNotificationEmails(updatedNotificationEmails);
-      saveEmailsToFirebase(updatedNotificationEmails);
-      setEmailInput("");
-    }
+  const saveEmailsToFirebase = async (emailsToSave) => {
+    const emailsRef = ref(database, "emergencyEmails");
+    await set(emailsRef, emailsToSave);
   };
 
   return (
@@ -82,12 +133,23 @@ const Settings = () => {
       </div>
 
       <div className="mb-5">
+        <label className="block text-darkBlue mb-2">Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter new email"
+          className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      <div className="mb-5">
         <label className="block text-darkBlue mb-2">Password</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter password"
+          placeholder="Enter new password"
           className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
@@ -154,31 +216,12 @@ const Settings = () => {
         </ul>
       </div>
 
-      {notificationEmails.length > 0 && (
-        <div className="mt-8 p-6 bg-[#3A3D47] rounded-lg shadow-inner">
-          <h2 className="text-2xl font-semibold mb-4 text-white">
-            Emails de Notification Confirmés
-          </h2>
-          <ul className="space-y-4">
-            {notificationEmails.map((email, index) => (
-              <li key={index} className="flex items-center">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => handleEmailChange(index, e.target.value)}
-                  className="flex-1 p-3 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A4E69]"
-                />
-                <button
-                  onClick={() => removeEmail(index)}
-                  className="ml-2 p-2 bg-red-600 text-white rounded-md"
-                >
-                  Supprimer
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <button
+        onClick={handleUpdateProfile}
+        className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-80 transition duration-300"
+      >
+        Update Profile
+      </button>
     </div>
   );
 };
