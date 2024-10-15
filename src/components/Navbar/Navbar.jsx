@@ -3,8 +3,12 @@ import { motion } from "framer-motion";
 import { FaPhone, FaCog, FaBars, FaTimes } from "react-icons/fa"; // Import icons for the menu
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
+import { useAuth } from "../../hooks";
+import { IoMdLogOut } from "react-icons/io";
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+
   const [isOpen, setIsOpen] = useState(false); // State for toggling the mobile menu
 
   return (
@@ -42,31 +46,53 @@ const Navbar = () => {
               Main
             </Link>
           </li>
-          <li>
+          {user ? (
+            <>
+              <li>
+                <Link
+                  to="/Dashboard"
+                  className="hover:text-primary transition-colors duration-300"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Interactive"
+                  className="hover:text-primary transition-colors duration-300"
+                >
+                  Interactive Monitoring
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Notification"
+                  className="hover:text-primary transition-colors duration-300"
+                >
+                  Alert Notifications
+                </Link>
+              </li>
+            </>
+          ) : (
             <Link
-              to="/Dashboard"
-              className="hover:text-primary transition-colors duration-300"
+              to="/Sign-In"
+              className="text-[#284C78] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#C9ADA7] hover:text-white"
             >
-              Dashboard
+              Connexion
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/Interactive"
-              className="hover:text-primary transition-colors duration-300"
-            >
-              Interactive Monitoring
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Notification"
-              className="hover:text-primary transition-colors duration-300"
-            >
-              Alert Notifications
-            </Link>
-          </li>
+          )}
         </ul>
+        {user && (
+          <>
+            <button
+              className="text-[#284C78] hover:text-[#C9ADA7]"
+              onClick={logout}
+            >
+              <IoMdLogOut className="text-2xl" />
+              <span className="sr-only">Log out</span>
+            </button>
+          </>
+        )}
 
         {/* Mobile Menu */}
         <ul
