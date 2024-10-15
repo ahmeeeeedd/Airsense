@@ -1,0 +1,105 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hello
+      - hi
+      - hey
+      - good morning
+      - good evening
+      - Aaslema
+      - Salem
+      - ahla
+
+  - intent: goodbye
+    examples: |
+      - bye
+      - see you later
+      - goodbye
+      - catch you later
+      - beslema
+      - tchau
+
+  - intent: inform
+    examples: |
+      - I need help with my tasks
+      - I want to know more about the weather
+      - Can you assist me with my medication schedule?
+      - I need information on local events
+      - Can you help me?
+      - 3aweni
+      - help baliz
+
+  - intent: bot_challenge
+    examples: |
+      - you are smart
+      - you are a clever bot
+      - how are you so intelligent?
+      - love you
+      - you are the best
+      - you are a good bot
+      - Rak maalem
+
+  - intent: ask_about_localization
+    examples: |
+      - What is the localization feature?
+      - How does localization work?
+      - Tell me about the localization feature
+      - What is Navi Cane's localization feature?
+      - How can Navi Cane help with localization?
+      - chniya option Localisation
+      - Localisation
+
+  - intent: ask_about_todo_list
+    examples: |
+      - How do I use the to-do list?
+      - What is the to-do list feature?
+      - Tell me about the to-do list
+      - How does the to-do list work?
+      - Can Navi Cane help with tasks?
+      - Liste de Tâches
+      - kifeh nesta3mel to-do list
+
+  - intent: ask_about_medication
+    examples: |
+      - How do I manage my medication?
+      - Tell me about the medication feature
+      - What is the medication feature?
+      - How does Navi Cane help with medications?
+      - Can Navi Cane remind me to take my medicine?
+      - Médicaments
+      - kifeh nesta3mel medication
+
+  - intent: ask_about_weather_alert
+    examples: |
+      - How do I get weather alerts?
+      - What is the weather alert feature?
+      - Can Navi Cane provide weather alerts?
+      - Tell me about the weather alert feature
+      - How does Navi Cane notify me about bad weather?
+      - Alerte Météo
+      - fech nest7a9eha météo
+
+  - intent: ask_about_alert_scam
+    examples: |
+      - What is the scam alert feature?
+      - How does the scam alert work?
+      - How do I use the scam alert?
+      - Alerte arnaque
+      - Can Navi Cane alert someone in case of danger?
+      - How can I activate the scam alert feature?
+
+  - intent: user_action_click_button
+    examples: |
+      - I clicked the button once
+      - Button clicked twice
+      - I pressed the button three times
+      - Clicked four times
+      - I pressed the button 4 times
+      - What does each click on the button do?
+      - I need today's to-do list
+      - Show me today's medication details
+      - Check today's weather
+      - Send a help alert
+      - kifeh lazemou yenzel 3al 9ares bech yesma3 koul option

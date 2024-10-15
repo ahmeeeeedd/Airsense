@@ -1,0 +1,41 @@
+version: "3.1"
+rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Respond to bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_bot_challenge
+
+  - rule: Provide information on localization
+    steps:
+      - intent: ask_about_localization
+      - action: utter_localization
+
+  - rule: Provide information on to-do list
+    steps:
+      - intent: ask_about_todo_list
+      - action: utter_todo_list
+
+  - rule: Provide information on medication
+    steps:
+      - intent: ask_about_medication
+      - action: utter_medication
+
+  - rule: Provide weather alert information
+    steps:
+      - intent: ask_about_weather_alert
+      - action: utter_weather_alert
+
+  - rule: Provide scam alert information
+    steps:
+      - intent: ask_about_alert_scam
+      - action: utter_alert_scam
+
+  - rule: Provide information about the bot
+    steps:
+      - intent: ask_about_bot
+      - action: utter_iamabot

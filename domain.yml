@@ -1,0 +1,63 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - inform
+  - bot_challenge
+  - ask_about_localization
+  - ask_about_todo_list
+  - ask_about_medication
+  - ask_about_weather_alert
+  - ask_about_alert_scam
+  - user_action_click_button
+  - ask_about_bot
+
+actions:
+  - utter_greet
+  - utter_goodbye
+  - utter_inform
+  - utter_bot_challenge
+  - utter_localization
+  - utter_todo_list
+  - utter_medication
+  - utter_weather_alert
+  - utter_alert_scam
+  - utter_iamabot
+  - utter_button_actions
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day!"
+
+  utter_inform:
+    - text: "I can help you with various tasks. What do you need?"
+
+  utter_bot_challenge:
+    - text: "Thank you"
+
+  utter_localization:
+    - text: "Navi Cane provides real-time location information, ensuring the safety of visually impaired users as they navigate their environment."
+
+  utter_todo_list:
+    - text: "This to-do list provides structure for the visually impaired individual to navigate throughout the day, using Navi Cane's features to help with navigation, tracking reminders, and organization."
+
+  utter_medication:
+    - text: "Navi Cane helps you manage medical appointments and medication schedules. It reminds you of your medical appointments and makes sure you don't forget to take your medication, providing details such as time, dosage and quantity."
+
+  utter_weather_alert:
+    - text: "Receive an alert if the weather conditions are not favorable for going out. Navi Cane will notify you so you can take appropriate measures."
+
+  utter_alert_scam:
+    - text: "If you click the cane's button 4 times, a scam alert email is sent to the user's responsible contact, and an alarm is triggered to alert people nearby."
+
+  utter_iamabot:
+    - text: "I am a bot created to assist you."
+
+  utter_button_actions:
+    - text: "Click once to hear today's to-do list, twice to hear today's medications, three times for a weather check, and four times to send a scam alert."
+
+  # Define action responses if needed
