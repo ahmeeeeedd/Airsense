@@ -28,26 +28,26 @@ const Interactive_monitoring = () => {
         className="text-4xl font-extrabold text-center"
         style={{ color: "#C96868" }}
       >
-        Supervision Interactive de l'Entreprise
+        Interactive Enterprise Supervision
       </h1>
 
       <section className="mb-8 border-b pb-5">
         <h2 className="text-3xl font-semibold" style={{ color: "#8EACCD" }}>
-          Phase 1 : Construction de l'entreprise
+          Phase 1: Building the business
         </h2>
         <ConstructionEntreprise grid={grid} setGrid={setGrid} />
       </section>
 
       <section className="mb-8 border-b pb-5">
         <h2 className="text-3xl font-semibold" style={{ color: "#8EACCD" }}>
-          Phase 2 : Placement des boîtiers
+          Phase 2: Placement of boxes
         </h2>
         <PlacementCubes grid={grid} setGrid={setGrid} />
       </section>
 
       <section>
         <h2 className="text-3xl font-semibold" style={{ color: "#8EACCD" }}>
-          Phase 3 : Visualisation en temps réel
+          Phase 3: Real-time visualization
         </h2>
         <Visualisation grid={grid} />
       </section>
@@ -71,7 +71,7 @@ const Interactive_monitoring = () => {
             (e.currentTarget.style.backgroundColor = "#C96868")
           }
         >
-          Réinitialiser la grille
+          Reset Grid
         </button>
         <button
           onClick={saveGrid}
@@ -91,7 +91,7 @@ const Interactive_monitoring = () => {
             (e.currentTarget.style.backgroundColor = "#8EACCD")
           }
         >
-          Enregistrer la grille
+          Save the grid
         </button>
       </div>
 
