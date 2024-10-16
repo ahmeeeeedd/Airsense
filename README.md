@@ -3,6 +3,16 @@
 ## Description
 Nous proposons une plateforme intuitive et un tableau de bord interactif pour visualiser les données critiques en temps réel, permettant des réponses rapides et efficaces aux risques d'incendie.
 
+## Technologies utilisées
+React:
+React est une bibliothèque JavaScript utilisée pour créer l'interface utilisateur.
+Tailwind CSS:
+Tailwind CSS est un framework de styles CSS utilisé pour concevoir un design moderne et responsive.
+Firebase (Back-end):
+Firebase est utilisé pour gérer la base de données et l'authentification de la plateforme.
+Rasa (Chatbot):
+Rasa est une plateforme open-source utilisée pour développer et déployer le chatbot.
+
 ## Fonctionnalités
 -Tableau de bord
 Le tableau de bord est intuitif et personnalisable, offrant des visualisations et des informations claires pour améliorer la sécurité industrielle.
