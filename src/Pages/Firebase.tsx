@@ -8,7 +8,6 @@ import {
   get,
   off,
 } from "firebase/database";
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCHynWegcNjHIIuunFbP0KaVGsry2u493I",
   authDomain: "https://airsense-ce82c-default-rtdb.firebaseio.com/",
