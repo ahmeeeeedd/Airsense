@@ -41,7 +41,7 @@ Nous proposons une plateforme intuitive et un tableau de bord interactif pour vi
 4. Lancez l'application : `npm run dev`
 
 ## Utilisation
-Pour démarrer le projet localement, accédez à ``.
+Pour démarrer le projet , accédez à `airsense-six.vercel.app`.
 
 ## Auteur
 *Ahmed hnana* - [ profil GitHub](https://github.com/ahmeeeeedd)
